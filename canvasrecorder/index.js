@@ -27,7 +27,7 @@ startButton.onclick = () => {
     recorder = new MediaRecorder(stream);
 
     recorder.ondataavailable = ev => {
-        console.log('recorder.ondataavailable', ev);
+        console.log('recorder.ondataavailable', chunks.length, ev);
         chunks.push(ev.data)
         downloadButton.disabled = false;
     };
