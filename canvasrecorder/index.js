@@ -4,8 +4,13 @@
 const startButton = document.getElementById('startButton');
 const stopButton = document.getElementById('stopButton');
 const downloadButton = document.getElementById('downloadButton');
+const playButton = document.getElementById('playButton');
+const overlayDiv = document.getElementById('overlay');
+const overlayVid = document.querySelector('#overlay > video');
 stopButton.disabled = true;
 downloadButton.disabled = true;
+playButton.disabled = true;
+overlayDiv.hidden = true;
 
 // access drawing canvas:
 const vga = document.getElementById('vga');
@@ -20,6 +25,7 @@ const chunks = [];
 
 startButton.onclick = () => {
     downloadButton.disabled = true;
+    playButton.disabled = true;
     stopButton.disabled = false;
 
     while (chunks.pop()); // empty the "chunks" array
@@ -30,10 +36,12 @@ startButton.onclick = () => {
         console.log('recorder.ondataavailable', chunks.length, ev);
         chunks.push(ev.data)
         downloadButton.disabled = false;
+        playButton.disabled = false;
     };
     recorder.start(3000);
-
 }
+
+
 
 stopButton.onclick = () => {
     stopButton.disabled = true;
@@ -42,16 +50,29 @@ stopButton.onclick = () => {
     recorder.stop();
 }
 
-downloadButton.onclick = () => {
+const fullBlobUrl = () => {
     const blob = new Blob(chunks, { type: 'video/webm' });
-    const url = URL.createObjectURL(blob)
-    console.log(blob, url);
+    return URL.createObjectURL(blob);
+}
+
+downloadButton.onclick = () => {
 
     const link = document.createElement('a');
-    link.href = url;
+    link.href = fullBlobUrl();
     link.download = "test.webm";
     link.click()
 };
+
+playButton.onclick = () => {
+    overlayDiv.hidden = false;
+
+    overlayVid.src = fullBlobUrl();
+    overlayVid.controls = true;
+}
+
+overlayVid.onended = () => {
+    overlayDiv.hidden = true;
+}
 
 
 

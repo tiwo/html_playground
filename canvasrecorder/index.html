@@ -7,7 +7,7 @@
 
     <script src="index.js" defer></script>
     <style>
-        body {
+        .centerWithin {
             min-height: 70vh;
             display: flex;
             align-items: center;
@@ -19,10 +19,20 @@
             flex-direction: column;
             align-items: center;
         }
+
+        #overlay {
+            position: fixed;
+            background: #fff8;
+            backdrop-filter: blur(5px);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
     </style>
 </head>
 
-<body>
+<body class="centerWithin">
 
     <div id="container">
         <div>
@@ -32,9 +42,17 @@
         <div>
             <button id="startButton">⏺️ (Re)start recording</button>
             <button id="stopButton">⏹️ Stop recording</button>
-            <button id="downloadButton">⏏️ Download</button>
         </div>
 
+        <div>
+            <button id="downloadButton">⏏️ Download</button>
+            <button id="playButton">▶️ Play as overlay video</button>
+
+        </div>
+    </div>
+
+    <div id="overlay" class="centerwithin">
+        <video></video>
     </div>
 
 
