@@ -81,6 +81,12 @@ window.setInterval(() => {
     if (k >= 64) {
         k = 0;
 
+        // reset cursor if out of bounds:
+        if (x < 0 || y < 0 || x >= vga.width || y >= vga.width) {
+            x = Math.floor(.5 * vga.width)
+            y = Math.floor(.5 * vga.height)
+        }
+
         // fade to black:
         ctx.fillStyle = '#00000008';
         ctx.fillRect(0, 0, vga.width, vga.height);
