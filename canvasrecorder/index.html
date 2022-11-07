@@ -20,6 +20,10 @@
             align-items: center;
         }
 
+        canvas {
+            margin: 2ex;
+        }
+
         #overlay {
             position: fixed;
             background: #fff8;
@@ -35,6 +39,17 @@
 <body class="centerWithin">
 
     <div id="container">
+
+        <div>
+            <h1>Canvas recorder</h1>
+            <div>Capture canvas→webm via blob URL.</div>
+            <div>
+                Links:
+                <a href="..">up</a>
+                | <a href="https://github.com/tiwo/html_playground">github repo</a>
+            </div>
+        </div>
+
         <div>
             <canvas width=320 height=240 id="vga"></canvas>
         </div>
