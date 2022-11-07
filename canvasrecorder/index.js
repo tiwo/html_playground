@@ -15,19 +15,31 @@ ctx.fillRect(0, 0, vga.width, vga.height);
 
 // set up video streaming to blobs:
 const stream = vga.captureStream();
-const recorder = new MediaRecorder(stream);
+let recorder = null;
 const chunks = [];
 
 startButton.onclick = () => {
-    startButton.disabled = true;
-    recorder.start();
+    downloadButton.disabled = true;
     stopButton.disabled = false;
+
+    while (chunks.pop()); // empty the "chunks" array
+
+    recorder = new MediaRecorder(stream);
+
+    recorder.ondataavailable = ev => {
+        console.log('recorder.ondataavailable', ev);
+        chunks.push(ev.data)
+        downloadButton.disabled = false;
+    };
+    recorder.start(3000);
+
 }
 
 stopButton.onclick = () => {
     stopButton.disabled = true;
-    recorder.stop();
     startButton.disabled = false;
+
+    recorder.stop();
 }
 
 downloadButton.onclick = () => {
@@ -41,11 +53,7 @@ downloadButton.onclick = () => {
     link.click()
 };
 
-recorder.ondataavailable = ev => {
-    console.log('recorder.ondataavailable', ev);
-    chunks.push(ev.data)
-    downloadButton.disabled = false;
-};
+
 
 
 
